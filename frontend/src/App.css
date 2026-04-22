@@ -1,0 +1,145 @@
+.App {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.auth-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.auth-card {
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  padding: 40px;
+  max-width: 450px;
+  width: 100%;
+}
+
+.auth-card h2 {
+  color: #667eea;
+  margin-bottom: 30px;
+  font-weight: 600;
+}
+
+.form-control:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  padding: 12px;
+  font-weight: 600;
+  transition: transform 0.2s;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+.alert {
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.dashboard-container {
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.dashboard-header {
+  background: white;
+  border-radius: 15px;
+  padding: 30px;
+  margin-bottom: 30px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-header h1 {
+  color: #667eea;
+  margin-bottom: 10px;
+}
+
+.student-info {
+  background: white;
+  border-radius: 15px;
+  padding: 30px;
+  margin-bottom: 20px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.info-item:last-child {
+  border-bottom: none;
+}
+
+.info-label {
+  font-weight: 600;
+  color: #667eea;
+}
+
+.info-value {
+  color: #333;
+}
+
+.update-section {
+  background: white;
+  border-radius: 15px;
+  padding: 30px;
+  margin-bottom: 20px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.update-section h3 {
+  color: #667eea;
+  margin-bottom: 20px;
+}
+
+.btn-danger {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  border: none;
+  padding: 12px 30px;
+  font-weight: 600;
+  transition: transform 0.2s;
+}
+
+.btn-danger:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(245, 87, 108, 0.4);
+}
+
+.btn-success {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  border: none;
+  padding: 12px;
+  font-weight: 600;
+  transition: transform 0.2s;
+}
+
+.btn-success:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(79, 172, 254, 0.4);
+}
+
+.link-text {
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.link-text:hover {
+  text-decoration: underline;
+}
