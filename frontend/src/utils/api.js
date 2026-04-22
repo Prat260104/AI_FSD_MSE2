@@ -28,7 +28,12 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401) {
+    // Only redirect to login if it's a token-related 401 (not login failure)
+    // Check if the request was NOT to login or register endpoints
+    const isAuthEndpoint = error.config?.url?.includes('/login') || 
+                          error.config?.url?.includes('/register');
+    
+    if (error.response?.status === 401 && !isAuthEndpoint) {
       localStorage.removeItem('token');
       localStorage.removeItem('student');
       window.location.href = '/login';
