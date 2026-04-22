@@ -2,6 +2,11 @@
 
 A complete authentication system built with MongoDB, Express, React, and Node.js that allows students to register, login, and manage their profiles.
 
+## 🌐 Live Demo
+
+- **Backend API:** https://ai-fsd-mse2-3w6g.onrender.com
+- **Frontend:** (Deploy to Vercel - instructions below)
+
 ## 🎯 Features
 
 ### Part A: Backend (6 Marks)
