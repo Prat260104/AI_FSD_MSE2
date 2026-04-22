@@ -37,8 +37,9 @@ const Register = () => {
         navigate('/dashboard');
       }
     } catch (err) {
-      setError(err.response?.data?.message || 'Registration failed. Please try again.');
-    } finally {
+      console.error('Registration error:', err);
+      const errorMessage = err.response?.data?.message || 'Registration failed. Please try again.';
+      setError(errorMessage);
       setLoading(false);
     }
   };
@@ -49,8 +50,8 @@ const Register = () => {
         <h2>Student Registration</h2>
         
         {error && (
-          <div className="alert alert-danger" role="alert">
-            {error}
+          <div className="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Error!</strong> {error}
           </div>
         )}
 

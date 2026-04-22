@@ -35,8 +35,9 @@ const Login = () => {
         navigate('/dashboard');
       }
     } catch (err) {
-      setError(err.response?.data?.message || 'Login failed. Please try again.');
-    } finally {
+      console.error('Login error:', err);
+      const errorMessage = err.response?.data?.message || 'Login failed. Please try again.';
+      setError(errorMessage);
       setLoading(false);
     }
   };
@@ -47,8 +48,8 @@ const Login = () => {
         <h2>Student Login</h2>
         
         {error && (
-          <div className="alert alert-danger" role="alert">
-            {error}
+          <div className="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Error!</strong> {error}
           </div>
         )}
 
