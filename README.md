@@ -4,8 +4,8 @@ A complete authentication system built with MongoDB, Express, React, and Node.js
 
 ## 🌐 Live Demo
 
+- **Frontend:** https://ai-fsd-mse-2-three.vercel.app
 - **Backend API:** https://ai-fsd-mse2-3w6g.onrender.com
-- **Frontend:** (Deploy to Vercel - instructions below)
 
 ## 🎯 Features
 
