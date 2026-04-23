@@ -7,8 +7,7 @@ const Register = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    password: '',
-    course: ''
+    password: ''
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -29,9 +28,12 @@ const Register = () => {
       const response = await register(formData);
       
       if (response.data.success) {
-        // Store token and student data
+        // Clear any old data first
+        localStorage.removeItem('student');
+        
+        // Store token and user data
         localStorage.setItem('token', response.data.token);
-        localStorage.setItem('student', JSON.stringify(response.data.student));
+        localStorage.setItem('user', JSON.stringify(response.data.user));
         
         // Redirect to dashboard
         navigate('/dashboard');
@@ -47,7 +49,7 @@ const Register = () => {
   return (
     <div className="auth-container">
       <div className="auth-card">
-        <h2>Student Registration</h2>
+        <h2>User Registration</h2>
         
         {error && (
           <div className="alert alert-danger alert-dismissible fade show" role="alert">
@@ -96,20 +98,6 @@ const Register = () => {
               required
               minLength="6"
               placeholder="Enter password (min 6 characters)"
-            />
-          </div>
-
-          <div className="mb-3">
-            <label htmlFor="course" className="form-label">Course</label>
-            <input
-              type="text"
-              className="form-control"
-              id="course"
-              name="course"
-              value={formData.course}
-              onChange={handleChange}
-              required
-              placeholder="Enter your course"
             />
           </div>
 

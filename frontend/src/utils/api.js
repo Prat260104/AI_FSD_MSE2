@@ -35,7 +35,7 @@ api.interceptors.response.use(
     
     if (error.response?.status === 401 && !isAuthEndpoint) {
       localStorage.removeItem('token');
-      localStorage.removeItem('student');
+      localStorage.removeItem('user');
       window.location.href = '/login';
     }
     return Promise.reject(error);
@@ -45,8 +45,14 @@ api.interceptors.response.use(
 // API functions
 export const register = (data) => api.post('/register', data);
 export const login = (data) => api.post('/login', data);
-export const updatePassword = (data) => api.put('/update-password', data);
-export const updateCourse = (data) => api.put('/update-course', data);
 export const getProfile = () => api.get('/profile');
+
+// Item APIs
+export const addItem = (data) => api.post('/items', data);
+export const getAllItems = () => api.get('/items');
+export const getItemById = (id) => api.get(`/items/${id}`);
+export const updateItem = (id, data) => api.put(`/items/${id}`, data);
+export const deleteItem = (id) => api.delete(`/items/${id}`);
+export const searchItems = (name) => api.get(`/items/search/query?name=${name}`);
 
 export default api;

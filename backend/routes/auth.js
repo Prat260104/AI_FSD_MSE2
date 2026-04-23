@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Student = require('../models/Student');
+const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const authMiddleware = require('../middleware/auth');
 
@@ -11,50 +11,48 @@ const generateToken = (id) => {
   });
 };
 
-// POST /api/register - Register a new student
+// POST /api/register - Register a new user
 router.post('/register', async (req, res) => {
   try {
-    const { name, email, password, course } = req.body;
+    const { name, email, password } = req.body;
 
     // Validate input
-    if (!name || !email || !password || !course) {
+    if (!name || !email || !password) {
       return res.status(400).json({ 
         success: false, 
         message: 'Please provide all required fields' 
       });
     }
 
-    // Check if student already exists
-    const existingStudent = await Student.findOne({ email });
-    if (existingStudent) {
+    // Check if user already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
       return res.status(400).json({ 
         success: false, 
         message: 'Email already registered' 
       });
     }
 
-    // Create new student
-    const student = new Student({
+    // Create new user
+    const user = new User({
       name,
       email,
-      password,
-      course
+      password
     });
 
-    await student.save();
+    await user.save();
 
     // Generate token
-    const token = generateToken(student._id);
+    const token = generateToken(user._id);
 
     res.status(201).json({
       success: true,
       message: 'Registration successful',
       token,
-      student: {
-        id: student._id,
-        name: student.name,
-        email: student.email,
-        course: student.course
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email
       }
     });
   } catch (error) {
@@ -67,7 +65,7 @@ router.post('/register', async (req, res) => {
   }
 });
 
-// POST /api/login - Authenticate student and return JWT token
+// POST /api/login - Authenticate user and return JWT token
 router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -80,9 +78,9 @@ router.post('/login', async (req, res) => {
       });
     }
 
-    // Find student
-    const student = await Student.findOne({ email });
-    if (!student) {
+    // Find user
+    const user = await User.findOne({ email });
+    if (!user) {
       return res.status(401).json({ 
         success: false, 
         message: 'Invalid login credentials' 
@@ -90,7 +88,7 @@ router.post('/login', async (req, res) => {
     }
 
     // Check password
-    const isPasswordValid = await student.comparePassword(password);
+    const isPasswordValid = await user.comparePassword(password);
     if (!isPasswordValid) {
       return res.status(401).json({ 
         success: false, 
@@ -99,17 +97,16 @@ router.post('/login', async (req, res) => {
     }
 
     // Generate token
-    const token = generateToken(student._id);
+    const token = generateToken(user._id);
 
     res.status(200).json({
       success: true,
       message: 'Login successful',
       token,
-      student: {
-        id: student._id,
-        name: student.name,
-        email: student.email,
-        course: student.course
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email
       }
     });
   } catch (error) {
@@ -122,126 +119,24 @@ router.post('/login', async (req, res) => {
   }
 });
 
-// PUT /api/update-password - Update password (verify old password)
-router.put('/update-password', authMiddleware, async (req, res) => {
-  try {
-    const { oldPassword, newPassword } = req.body;
-
-    // Validate input
-    if (!oldPassword || !newPassword) {
-      return res.status(400).json({ 
-        success: false, 
-        message: 'Please provide both old and new passwords' 
-      });
-    }
-
-    if (newPassword.length < 6) {
-      return res.status(400).json({ 
-        success: false, 
-        message: 'New password must be at least 6 characters' 
-      });
-    }
-
-    // Find student
-    const student = await Student.findById(req.studentId);
-    if (!student) {
-      return res.status(404).json({ 
-        success: false, 
-        message: 'Student not found' 
-      });
-    }
-
-    // Verify old password
-    const isPasswordValid = await student.comparePassword(oldPassword);
-    if (!isPasswordValid) {
-      return res.status(401).json({ 
-        success: false, 
-        message: 'Old password is incorrect' 
-      });
-    }
-
-    // Update password
-    student.password = newPassword;
-    await student.save();
-
-    res.status(200).json({
-      success: true,
-      message: 'Password updated successfully'
-    });
-  } catch (error) {
-    console.error('Update password error:', error);
-    res.status(500).json({ 
-      success: false, 
-      message: 'Server error during password update',
-      error: error.message 
-    });
-  }
-});
-
-// PUT /api/update-course - Change course
-router.put('/update-course', authMiddleware, async (req, res) => {
-  try {
-    const { course } = req.body;
-
-    // Validate input
-    if (!course) {
-      return res.status(400).json({ 
-        success: false, 
-        message: 'Please provide a course' 
-      });
-    }
-
-    // Find and update student
-    const student = await Student.findById(req.studentId);
-    if (!student) {
-      return res.status(404).json({ 
-        success: false, 
-        message: 'Student not found' 
-      });
-    }
-
-    student.course = course;
-    await student.save();
-
-    res.status(200).json({
-      success: true,
-      message: 'Course updated successfully',
-      student: {
-        id: student._id,
-        name: student.name,
-        email: student.email,
-        course: student.course
-      }
-    });
-  } catch (error) {
-    console.error('Update course error:', error);
-    res.status(500).json({ 
-      success: false, 
-      message: 'Server error during course update',
-      error: error.message 
-    });
-  }
-});
-
-// GET /api/profile - Get student profile (protected route)
+// GET /api/profile - Get user profile (protected route)
 router.get('/profile', authMiddleware, async (req, res) => {
   try {
-    const student = await Student.findById(req.studentId).select('-password');
+    const user = await User.findById(req.userId).select('-password');
     
-    if (!student) {
+    if (!user) {
       return res.status(404).json({ 
         success: false, 
-        message: 'Student not found' 
+        message: 'User not found' 
       });
     }
 
     res.status(200).json({
       success: true,
-      student: {
-        id: student._id,
-        name: student.name,
-        email: student.email,
-        course: student.course
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email
       }
     });
   } catch (error) {

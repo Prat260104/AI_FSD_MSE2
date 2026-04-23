@@ -27,9 +27,12 @@ const Login = () => {
       const response = await login(formData);
       
       if (response.data.success) {
-        // Store token and student data in localStorage
+        // Clear any old data first
+        localStorage.removeItem('student');
+        
+        // Store token and user data in localStorage
         localStorage.setItem('token', response.data.token);
-        localStorage.setItem('student', JSON.stringify(response.data.student));
+        localStorage.setItem('user', JSON.stringify(response.data.user));
         
         // Redirect to dashboard
         navigate('/dashboard');
@@ -45,7 +48,7 @@ const Login = () => {
   return (
     <div className="auth-container">
       <div className="auth-card">
-        <h2>Student Login</h2>
+        <h2>User Login</h2>
         
         {error && (
           <div className="alert alert-danger alert-dismissible fade show" role="alert">

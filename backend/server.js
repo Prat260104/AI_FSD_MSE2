@@ -3,6 +3,7 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const connectDB = require('./config/db');
 const authRoutes = require('./routes/auth');
+const itemRoutes = require('./routes/items');
 
 // Load environment variables
 dotenv.config();
@@ -26,11 +27,12 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use('/api', authRoutes);
+app.use('/api/items', itemRoutes);
 
 // Root route
 app.get('/', (req, res) => {
   res.json({ 
-    message: 'Student Authentication API',
+    message: 'Lost & Found Item Management API',
     status: 'Running'
   });
 });

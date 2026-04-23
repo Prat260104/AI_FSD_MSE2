@@ -1,6 +1,6 @@
-# Student Login & Registration System - MERN Stack
+# Lost & Found Item Management System - MERN Stack
 
-A complete authentication system built with MongoDB, Express, React, and Node.js that allows students to register, login, and manage their profiles.
+A complete Lost & Found management system built with MongoDB, Express, React, and Node.js that allows users to register, login, report lost/found items, and manage their entries.
 
 ## 🌐 Live Demo
 
@@ -10,23 +10,27 @@ A complete authentication system built with MongoDB, Express, React, and Node.js
 ## 🎯 Features
 
 ### Part A: Backend (6 Marks)
-- ✅ MongoDB schema with Name, Email (unique), Password (hashed), Course
+- ✅ MongoDB schema with User (Name, Email, Password) and Item (ItemName, Description, Type, Location, Date, ContactInfo)
 - ✅ REST APIs:
-  - `POST /api/register` - Register new student
+  - `POST /api/register` - Register new user
   - `POST /api/login` - Authenticate and return JWT token
-  - `PUT /api/update-password` - Update password with old password verification
-  - `PUT /api/update-course` - Change course
-  - `GET /api/profile` - Get student profile (protected)
+  - `POST /api/items` - Add new item
+  - `GET /api/items` - View all items
+  - `GET /api/items/:id` - View item by ID
+  - `PUT /api/items/:id` - Update item
+  - `DELETE /api/items/:id` - Delete item
+  - `GET /api/items/search/query?name=xyz` - Search items
 - ✅ bcrypt for password hashing
 - ✅ JWT for authentication
 
 ### Part B: Frontend (6 Marks)
-- ✅ Registration Form (Name, Email, Password, Course)
+- ✅ Registration Form (Name, Email, Password)
 - ✅ Login Form (Email, Password)
 - ✅ Dashboard with:
-  - Student details display
-  - Update Password form
-  - Change Course option
+  - Add item form
+  - Display all items
+  - Search items
+  - Update/Delete items (own items only)
   - Logout button
 - ✅ Axios for API integration
 - ✅ JWT token stored in localStorage
@@ -34,7 +38,7 @@ A complete authentication system built with MongoDB, Express, React, and Node.js
 
 ### Part C: Integration & Functionality (3 Marks)
 - ✅ Protected /dashboard route with authentication middleware
-- ✅ Only logged-in users can view dashboard and update data
+- ✅ Only logged-in users can view dashboard and manage items
 - ✅ Error handling:
   - Invalid login credentials
   - Duplicate email registration
