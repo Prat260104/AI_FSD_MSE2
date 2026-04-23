@@ -220,53 +220,52 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard-container">
-      <div className="container">
-        {/* Header */}
-        <div className="dashboard-header">
+      {/* Header */}
+      <div className="dashboard-header">
+        <div className="container">
           <div className="d-flex justify-content-between align-items-center">
             <div>
               <h1>Lost & Found Dashboard</h1>
-              <p className="text-muted mb-0">Welcome, {user.name}!</p>
+              <p>Welcome back, {user.name}!</p>
             </div>
             <button onClick={handleLogout} className="btn btn-danger">
               Logout
             </button>
           </div>
         </div>
+      </div>
 
+      {/* Main Content */}
+      <div className="dashboard-content">
         {/* Message Alert */}
         {message.text && (
-          <div className={`alert alert-${message.type} alert-dismissible fade show`} role="alert">
+          <div className={`alert alert-${message.type}`} role="alert">
             {message.text}
             <button type="button" className="btn-close" onClick={() => setMessage({ type: '', text: '' })}></button>
           </div>
         )}
 
-        {/* Add Item Button & Search */}
-        <div className="row mb-4">
-          <div className="col-md-6">
-            <button 
-              onClick={() => setShowAddForm(!showAddForm)} 
-              className="btn btn-primary"
-            >
-              {showAddForm ? 'Cancel' : '+ Add Item'}
-            </button>
-          </div>
-          <div className="col-md-6">
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Search items by name or description..."
-              value={searchQuery}
-              onChange={handleSearch}
-            />
-          </div>
+        {/* Action Bar */}
+        <div className="action-bar">
+          <button 
+            onClick={() => setShowAddForm(!showAddForm)} 
+            className={`btn ${showAddForm ? 'btn-secondary' : 'btn-primary'}`}
+          >
+            {showAddForm ? '✕ Cancel' : '+ Add New Item'}
+          </button>
+          <input
+            type="text"
+            className="form-control search-input"
+            placeholder="🔍 Search items by name or description..."
+            value={searchQuery}
+            onChange={handleSearch}
+          />
         </div>
 
         {/* Add/Edit Item Form */}
         {showAddForm && (
-          <div className="update-section mb-4">
-            <h3>{editingItem ? 'Edit Item' : 'Add New Item'}</h3>
+          <div className="form-section">
+            <h3>{editingItem ? '✏️ Edit Item' : '➕ Add New Item'}</h3>
             <form onSubmit={editingItem ? handleUpdateItem : handleAddItem}>
               <div className="row">
                 <div className="col-md-6 mb-3">
@@ -378,52 +377,64 @@ const Dashboard = () => {
 
         {/* Items List */}
         <div className="items-container">
-          <h3>All Items ({filteredItems.length})</h3>
+          <h3>📦 All Items ({filteredItems.length})</h3>
           {filteredItems.length === 0 ? (
             <div className="empty-state">
-              <p className="text-muted">No items found. Add your first item to get started!</p>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+              </svg>
+              <p>No items found. {searchQuery ? 'Try a different search.' : 'Add your first item to get started!'}</p>
             </div>
           ) : (
             <div className="row">
               {filteredItems.map((item) => (
-                <div key={item._id} className="col-md-6 col-lg-4 mb-3">
-                  <div className="card h-100">
+                <div key={item._id} className="col-lg-4 col-md-6 mb-4">
+                  <div className="card">
                     <div className="card-body">
-                      <div className="d-flex justify-content-between align-items-start mb-2">
-                        <h5 className="card-title">{item.itemName}</h5>
+                      <div className="card-title">
+                        <span>{item.itemName}</span>
                         <span className={`badge ${item.type === 'Lost' ? 'bg-danger' : 'bg-success'}`}>
-                          {item.type}
+                          {item.type === 'Lost' ? '🔍 Lost' : '✓ Found'}
                         </span>
                       </div>
-                      <p className="card-text text-muted small">{item.description}</p>
-                      <div className="mb-2">
-                        <strong>Location:</strong> {item.location}
-                      </div>
-                      <div className="mb-2">
-                        <strong>Date:</strong> {new Date(item.date).toLocaleDateString()}
-                      </div>
-                      <div className="mb-3">
-                        <strong>Contact:</strong> {item.contactInfo}
-                      </div>
-                      <div className="mb-2 small text-muted">
-                        Posted by: {item.userId?.name || 'Unknown'}
-                      </div>
-                      {user && user.id === item.userId?._id && (
-                        <div className="d-flex gap-2">
-                          <button 
-                            onClick={() => handleEditItem(item)}
-                            className="btn btn-sm btn-primary"
-                          >
-                            Edit
-                          </button>
-                          <button 
-                            onClick={() => handleDeleteItem(item._id)}
-                            className="btn btn-sm btn-danger"
-                          >
-                            Delete
-                          </button>
+                      <p className="card-text">{item.description}</p>
+                      
+                      <div className="card-info">
+                        <div className="card-info-item">
+                          <strong>📍 Location:</strong>
+                          <span>{item.location}</span>
                         </div>
-                      )}
+                        <div className="card-info-item">
+                          <strong>📅 Date:</strong>
+                          <span>{new Date(item.date).toLocaleDateString()}</span>
+                        </div>
+                        <div className="card-info-item">
+                          <strong>📞 Contact:</strong>
+                          <span>{item.contactInfo}</span>
+                        </div>
+                      </div>
+                      
+                      <div className="card-footer">
+                        <div className="card-author">
+                          Posted by: {item.userId?.name || 'Unknown'}
+                        </div>
+                        {user && user.id === item.userId?._id && (
+                          <div className="d-flex gap-2">
+                            <button 
+                              onClick={() => handleEditItem(item)}
+                              className="btn btn-sm btn-primary"
+                            >
+                              Edit
+                            </button>
+                            <button 
+                              onClick={() => handleDeleteItem(item._id)}
+                              className="btn btn-sm btn-danger"
+                            >
+                              Delete
+                            </button>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>

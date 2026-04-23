@@ -50,10 +50,12 @@ const Register = () => {
     <div className="auth-container">
       <div className="auth-card">
         <h2>User Registration</h2>
+        <p className="subtitle">Create your Lost & Found account</p>
         
         {error && (
-          <div className="alert alert-danger alert-dismissible fade show" role="alert">
+          <div className="alert alert-danger" role="alert">
             <strong>Error!</strong> {error}
+            <button type="button" className="btn-close" onClick={() => setError('')}></button>
           </div>
         )}
 
