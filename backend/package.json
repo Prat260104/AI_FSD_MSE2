@@ -1,13 +1,13 @@
 {
-  "name": "student-auth-backend",
+  "name": "lost-found-backend",
   "version": "1.0.0",
-  "description": "Student Authentication System Backend",
+  "description": "Lost & Found Item Management System Backend",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js"
   },
-  "keywords": ["mern", "authentication", "student"],
+  "keywords": ["mern", "lost-found", "item-management"],
   "author": "",
   "license": "ISC",
   "dependencies": {

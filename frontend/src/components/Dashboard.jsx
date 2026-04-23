@@ -377,10 +377,12 @@ const Dashboard = () => {
         )}
 
         {/* Items List */}
-        <div className="student-info">
+        <div className="items-container">
           <h3>All Items ({filteredItems.length})</h3>
           {filteredItems.length === 0 ? (
-            <p className="text-center text-muted py-4">No items found. Add your first item!</p>
+            <div className="empty-state">
+              <p className="text-muted">No items found. Add your first item to get started!</p>
+            </div>
           ) : (
             <div className="row">
               {filteredItems.map((item) => (
